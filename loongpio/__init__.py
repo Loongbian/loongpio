@@ -129,6 +129,15 @@ class Servo(PWMOutput):
     def angle(self, angle: float) -> None:
         self.value = angle / 180.0
 
+    def min(self) -> None:
+        self.angle = 0
+
+    def mid(self) -> None:
+        self.angle = 90
+
+    def max(self) -> None:
+        self.angle = 180
+
 class TonalBuzzer(PWMOutput):
     @staticmethod
     def spn_to_freq(spn: str) -> float:
@@ -171,7 +180,10 @@ class DHT11(object):
 class DistanceSensor(object):
 
     def __init__(self, trigger_pin: _LsPin, echo_pin: _LsPin) -> None:
-        import adafruit_hcsr04
+        try:
+            import adafruit_hcsr04
+        except ImportError:
+            raise RuntimeError('Adafruit_HCSR04 module is not installed. Run `apt install python3-adafruit-circuitpython-hcsr04` as root to install.') from ImportError
         self._sonar = adafruit_hcsr04.HCSR04(
             trigger_pin=DigitalInputOutput.lspin_to_libgpiod_pin(trigger_pin),
             echo_pin=DigitalInputOutput.lspin_to_libgpiod_pin(echo_pin))
