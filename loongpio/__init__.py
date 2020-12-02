@@ -179,14 +179,14 @@ class DHT11(object):
 
 class DistanceSensor(object):
 
-    def __init__(self, trigger_pin: _LsPin, echo_pin: _LsPin) -> None:
+    def __init__(self, trigger: _LsPin, echo: _LsPin) -> None:
         try:
             import adafruit_hcsr04
         except ImportError:
             raise RuntimeError('Adafruit_HCSR04 module is not installed. Run `apt install python3-adafruit-circuitpython-hcsr04` as root to install.') from ImportError
         self._sonar = adafruit_hcsr04.HCSR04(
-            trigger_pin=DigitalInputOutput.lspin_to_libgpiod_pin(trigger_pin),
-            echo_pin=DigitalInputOutput.lspin_to_libgpiod_pin(echo_pin))
+            trigger_pin=DigitalInputOutput.lspin_to_libgpiod_pin(trigger),
+            echo_pin=DigitalInputOutput.lspin_to_libgpiod_pin(echo))
 
     @property
     def distance(self) -> _Optional[float]:
