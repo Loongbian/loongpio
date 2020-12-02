@@ -90,6 +90,10 @@ class Button(DigitalInput):
     def wait_until_press(self) -> None:
         self.wait_until(not self.is_active_low)
 
+    @property
+    def is_pressed(self) -> bool:
+        return self.is_active_low != self.value
+
 class LED(DigitalOutput):
     def __init__(self, pin: _LsPin) -> None:
         super().__init__(pin)
