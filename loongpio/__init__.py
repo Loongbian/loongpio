@@ -94,6 +94,8 @@ class Button(DigitalInput):
     def is_pressed(self) -> bool:
         return self.is_active_low != self.value
 
+Button.wait_for_press = Button.wait_until_press
+
 class LED(DigitalOutput):
     def __init__(self, pin: _LsPin) -> None:
         super().__init__(pin)
