@@ -1,5 +1,6 @@
 import digitalio as _digitalio
 import pulseio as _pulseio
+import busio as _busio
 import time as _time
 from typing import Union as _Union, Optional as _Optional
 
@@ -200,3 +201,17 @@ class DistanceSensor(object):
             return self._sonar.distance
         except RuntimeError:
             return None
+
+class BH1750(object):
+    def __init__(self, scl: _LsPin, sda: _LsPin) -> None:
+        try:
+            import adafruit_bh1750
+        except ImportError:
+            raise RuntimeError('Adafruit_BH1750 module is not installed. Run `apt install python3-adafruit-circuitpython-bh1750` as root to install.') from ImportError
+        self._sensor = adafruit_bh1750.BH1750(_busio.I2C(
+            scl=DigitalInputOutput.lspin_to_libgpiod_pin(scl),
+            sda=DigitalInputOutput.lspin_to_libgpiod_pin(sda)))
+
+    @property
+    def lux(self) -> float:
+        return self._sensor.lux
