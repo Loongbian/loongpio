@@ -122,11 +122,11 @@ class Servo(PWMOutput):
 
     @property
     def value(self) -> float:
-        return (self.duty_cycle / 65535.0 - 0.05) * 20.0
+        return (self.duty_cycle / 65535.0 - 0.025) * 20.0
 
     @value.setter
     def value(self, value: float) -> None:
-        self.duty_cycle = int((value * 0.05 + 0.05) * 65535.0)
+        self.duty_cycle = int((value * 0.05 + 0.025) * 65535.0)
 
     @property
     def angle(self) -> float:
