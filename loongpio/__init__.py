@@ -5,12 +5,13 @@ import time as _time
 from typing import Union as _Union, Optional as _Optional
 
 from adafruit_blinka.microcontroller.generic_linux.libgpiod_pin import Pin as _Pin
+from adafruit_blinka import ContextManaged as _ContextManaged
 
 _LsPin = _Union[_Pin, int]
 
 _allowed_gpios = [7, 60, 1, 2, 3, 4, 5, 6, 8, 9, 10, 11, 12, 37, 13, 38, 40, 41, 56, 57, 58, 59]
 
-class DigitalInputOutput(object):
+class DigitalInputOutput(_ContextManaged):
     @staticmethod
     def lspin_to_libgpiod_pin(pin: _LsPin) -> _Pin:
         if type(pin) is int:
@@ -25,6 +26,9 @@ class DigitalInputOutput(object):
 
     def __init__(self, pin: _LsPin) -> None:
         self._io = _digitalio.DigitalInOut(DigitalInputOutput.lspin_to_libgpiod_pin(pin))
+
+    def deinit(self) -> None:
+        del self._io
 
 class DigitalInput(DigitalInputOutput):
     def __init__(self, pin: _LsPin) -> None:
@@ -64,7 +68,7 @@ class DigitalOutput(DigitalInputOutput):
     def off(self) -> None:
         self.value = False
 
-class PWMOutput(object):
+class PWMOutput(_ContextManaged):
     def __init__(self, pin: int, frequency: int = 500, duty_cycle: int = 0) -> None:
         self._output = _pulseio.PWMOut(pin, frequency=frequency, duty_cycle=duty_cycle)
 
@@ -84,8 +88,8 @@ class PWMOutput(object):
     def frequency(self, value: int) -> None:
         self._output.frequency = value
 
-    def __del__(self) -> None:
-        self._output = None
+    def deinit(self) -> None:
+        del self._output
 
 class Button(DigitalInput):
     def __init__(self, pin: _LsPin, is_active_low: bool = False) -> None:
