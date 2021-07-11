@@ -8,10 +8,14 @@ from adafruit_blinka.microcontroller.generic_linux.libgpiod_pin import Pin as _P
 
 _LsPin = _Union[_Pin, int]
 
+_allowed_gpios = [7, 60, 1, 2, 3, 4, 5, 6, 8, 9, 10, 11, 12, 37, 13, 38, 40, 41, 56, 57, 58, 59]
+
 class DigitalInputOutput(object):
     @staticmethod
     def lspin_to_libgpiod_pin(pin: _LsPin) -> _Pin:
         if type(pin) is int:
+            if pin not in _allowed_gpios:
+                raise ValueError('No such GPIO: ' + str(pin))
             __pin = _Pin(pin)
         elif type(pin) is _Pin:
             __pin = pin
