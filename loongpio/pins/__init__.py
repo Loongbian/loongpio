@@ -1,6 +1,4 @@
 from adafruit_platformdetect import Detector
-from adafruit_platformdetect.board import Board
-from adafruit_platformdetect.chip import Chip
 
 from adafruit_platformdetect.constants.chips import GS264E
 from adafruit_platformdetect.constants.boards import LOONGSON_PI_2K_EDU
