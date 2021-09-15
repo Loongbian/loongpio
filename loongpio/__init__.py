@@ -44,10 +44,10 @@ class DigitalInput(DigitalInputOutput):
             _time.sleep(0.01)
 
     def wait_until_high(self) -> None:
-        wait_until(True)
+        self.wait_until(True)
 
     def wait_until_low(self) -> None:
-        wait_until(False)
+        self.wait_until(False)
 
 class DigitalOutput(DigitalInputOutput):
     def __init__(self, pin: _LsPin):
@@ -84,7 +84,7 @@ class PWMOutput(_ContextManaged):
     def frequency(self) -> int:
         return self._output.frequency
 
-    @duty_cycle.setter
+    @frequency.setter
     def frequency(self, value: int) -> None:
         self._output.frequency = value
 

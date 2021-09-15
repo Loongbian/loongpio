@@ -19,5 +19,6 @@ setuptools.setup(
         "Operating System :: Linux",
     ],
     python_requires='>=3.6',
+    install_requires=["Adafruit-Blinka", "adafruit-circuitpython-hcsr04", "adafruit-circuitpython-bh1750"]
 )
 
