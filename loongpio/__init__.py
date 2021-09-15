@@ -9,7 +9,7 @@ from adafruit_blinka import ContextManaged as _ContextManaged
 
 _LsPin = _Union[_Pin, int]
 
-_allowed_gpios = [7, 60, 1, 2, 3, 4, 5, 6, 8, 9, 10, 11, 12, 37, 13, 38, 40, 41, 56, 57, 58, 59]
+_allowed_gpios = {7, 60, 1, 2, 3, 4, 5, 6, 8, 9, 10, 11, 12, 37, 13, 38, 40, 41, 56, 57, 58, 59}
 
 class DigitalInputOutput(_ContextManaged):
     @staticmethod
