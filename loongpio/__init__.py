@@ -105,6 +105,21 @@ class Button(DigitalInput):
 
 Button.wait_for_press = Button.wait_until_press
 
+class MotionSensor(DigitalInput):
+    def __init__(self, pin: _LsPin, is_active_low: bool = False) -> None:
+        super().__init__(pin)
+        self.is_active_low = is_active_low
+
+    def wait_for_motion(self) -> None:
+        self.wait_until(not self.is_active_low)
+
+    def wait_for_no_motion(self) -> None:
+        self.wait_until(self.is_active_low)
+
+    @property
+    def motion(self) -> bool:
+        return self.is_active_low != self.value
+
 class LED(DigitalOutput):
     def __init__(self, pin: _LsPin) -> None:
         super().__init__(pin)
